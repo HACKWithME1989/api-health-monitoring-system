@@ -210,7 +210,9 @@ Add these column headers in row 1:
 |---|---|---|---|---|---|---|
 
 ### 2. Import the Scenario Blueprint
+**Download the workflow:** [Make.com Blueprint](api-health-monitoring.blueprint.json)
 
+This sanitized blueprint contains the scenario's modules, mappings, routing logic, and error-handling configuration. After importing, configure your own Google connections, spreadsheet, and email recipient before running it.
 1. Download `api-health-monitoring.blueprint.json` from this repository once the sanitized blueprint has been published.
 2. Sign in to Make.com.
 3. Create a new scenario.
