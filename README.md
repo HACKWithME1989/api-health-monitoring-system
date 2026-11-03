@@ -1,5 +1,4 @@
-# api-health-monitoring-system
-Automated API health monitoring with HTTP checks, conditional routing, Google Sheets logging, and email alerts.
+
 # API Health Monitoring System
 
 An automated API monitoring and failure-notification system built with **Make.com, HTTP, Google Sheets, and Gmail**.
