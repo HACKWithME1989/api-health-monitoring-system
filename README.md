@@ -35,7 +35,11 @@ This project demonstrates how to build an automated monitoring workflow that dis
 | Gmail | Automated failure notifications |
 
 ## System Architecture
+### Make.com Workflow Architecture
 
+The screenshot below shows the complete monitoring scenario, including healthy-response routing, unhealthy-response logging and alerts, and HTTP connection-error handling.
+
+![API Health Monitoring Architecture](api-monitoring-architecture.png)
 ```text
                Scheduled Execution
                        |
