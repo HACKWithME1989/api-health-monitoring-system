@@ -131,7 +131,17 @@ When an HTTP response fails the health validation conditions, the system logs th
 When the HTTP module encounters an execution error, a separate error-handler route captures available diagnostics, records the failure in Google Sheets, and sends a critical email notification.
 
 This path was tested with an invalid DNS hostname and successfully recorded a `ConnectionError` containing an `ENOTFOUND` diagnostic.
+### Application Health Failure Alert
 
+The following email was generated when the API returned an application status of `unhealthy` despite an HTTP 200 response.
+
+![Application Failure Alert](application-failure-alert.png)
+
+### Connection Failure Alert
+
+The following email demonstrates the DNS connection-error notification, including the captured error type, diagnostic message, and recommended troubleshooting actions. The endpoint displayed in this prototype alert is a fixed configured value, not necessarily the endpoint used in the failure test.
+
+![Connection Failure Alert](connection-failure-alert.png)
 ## Error Handling
 
 The HTTP module uses a dedicated error-handling route:
