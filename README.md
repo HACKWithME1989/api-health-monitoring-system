@@ -189,7 +189,129 @@ The scenario is configured for checks every 15 minutes.
 Automatic execution is currently disabled to avoid unnecessary Make credit consumption during portfolio development.
 
 The configured schedule demonstrates recurring monitoring capability, but continuous unattended operation has not been validated.
+## How to Reproduce
 
+This project can be recreated in Make.com using the provided workflow blueprint or by manually configuring the modules.
+
+### Prerequisites
+
+- A Make.com account
+- A Google account with access to Google Sheets
+- A Gmail connection for failure notifications
+- Basic familiarity with HTTP requests and JSON responses
+
+### 1. Create the Monitoring Spreadsheet
+
+Create a Google Sheets spreadsheet named `API Health Monitoring Log`.
+
+Add these column headers in row 1:
+
+| Timestamp | APIName | Endpoint | HTTPStatus | ApplicationStatus | OverallHealth | Details |
+|---|---|---|---|---|---|---|
+
+### 2. Import the Scenario Blueprint
+
+1. Download `api-health-monitoring.blueprint.json` from this repository once the sanitized blueprint has been published.
+2. Sign in to Make.com.
+3. Create a new scenario.
+4. Open the three-dot menu in the scenario builder.
+5. Select **Import blueprint**.
+6. Choose the downloaded JSON file.
+7. Save the imported scenario.
+
+Reconnect the Google Sheets and Gmail modules using your own accounts. Select the monitoring spreadsheet created in Step 1.
+
+Do not activate recurring scheduling until configuration and testing are complete.
+
+### 3. Configure the HTTP Health Check
+
+Set the HTTP module to:
+
+- **Method:** GET
+- **URL:** `https://postman-echo.com/get?status=healthy`
+- **Timeout:** 10 seconds
+- **Parse response:** Enabled
+- **Return error if HTTP request fails:** Disabled
+
+### 4. Configure Health Evaluation
+
+The router uses two branches.
+
+**Healthy Route**
+
+Both conditions must be satisfied:
+
+- HTTP Status Code equals `200`.
+- `Data → args → status` equals `healthy`.
+
+Matching responses are recorded in Google Sheets with an overall status of `Healthy`.
+
+**Unhealthy Route**
+
+Configure the second route as a fallback.
+
+Responses that do not satisfy the Healthy conditions are recorded as `Unhealthy` and trigger a Gmail alert.
+
+### 5. Configure HTTP Error Handling
+
+Attach an error handler directly to the HTTP module.
+
+The error-handler route uses:
+
+1. Google Sheets — Record connection failure
+2. Gmail — Send critical failure alert
+3. Skip — Handle the failed bundle
+
+The logged error details should include the HTTP module's error message.
+
+### 6. Run Functional Tests
+
+**Test A — Healthy Response**
+
+Set the HTTP URL to:
+
+`https://postman-echo.com/get?status=healthy`
+
+Run the scenario once.
+
+Expected result: Google Sheets records HTTP `200`, application status `healthy`, and overall health `Healthy`.
+
+**Test B — Application Failure**
+
+Set the HTTP URL to:
+
+`https://postman-echo.com/get?status=unhealthy`
+
+Run the scenario once.
+
+Expected result: The unhealthy fallback executes, Google Sheets records `Unhealthy`, and Gmail sends an application-health alert.
+
+**Test C — Connection Failure**
+
+Set the HTTP URL to:
+
+`https://api-health-test.invalid/health`
+
+Run the scenario once.
+
+Expected result: The HTTP error handler captures the connection failure, Google Sheets records `Connection Error`, and Gmail generates a critical notification.
+
+### 7. Restore the Original Configuration
+
+After testing:
+
+1. Restore `https://postman-echo.com/get?status=healthy`.
+2. Save the HTTP module and scenario.
+3. Confirm the scenario is configured for 15-minute monitoring intervals.
+4. Leave the scenario inactive unless ongoing monitoring is intentionally required.
+
+### Reproduction Notes
+
+- The current prototype uses fixed endpoint text in the connection-error logging and alert paths. Update these values for your environment.
+- Gmail notification placement depends on the recipient's mailbox configuration.
+- The system requires separate handling for downstream Google Sheets or Gmail failures.
+- Imported blueprints may require reconnection and configuration of external services.
+- Avoid using real credentials or sensitive operational data during testing.
 ## Known Limitations
 
 This is a functional portfolio prototype rather than a production monitoring service.
