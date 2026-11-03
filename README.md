@@ -114,14 +114,16 @@ Google Sheets stores monitoring history using the following fields:
 
 The logs distinguish between application health failures and errors where no HTTP response was received.
 
-## Automated Email Alerts
-
-The workflow sends email notifications for two categories of failure.
 ### Monitoring Log — Test Results
 
 The screenshot below demonstrates how the system records healthy API responses, unhealthy application responses, and connection failures in Google Sheets.
 
 ![API Health Monitoring Log](api-monitoring-log.png)
+
+## Automated Email Alerts
+
+The workflow sends email notifications for two categories of failure.
+
 ### Application Health Failure
 
 When an HTTP response fails the health validation conditions, the system logs the result and sends an alert containing the API name, endpoint, HTTP status, application status, detection time, and recommended actions.
