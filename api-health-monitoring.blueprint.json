@@ -1,0 +1,1726 @@
+{
+  "name": "API Health Monitoring System",
+  "flow": [
+    {
+      "id": 1,
+      "module": "http:MakeRequest",
+      "version": 4,
+      "parameters": {
+        "authenticationType": "noAuth",
+        "tlsType": ""
+      },
+      "mapper": {
+        "url": "https://postman-echo.com/get?status=healthy",
+        "method": "get",
+        "parseResponse": true,
+        "stopOnHttpError": false,
+        "timeout": "10",
+        "allowRedirects": true,
+        "shareCookies": false,
+        "requestCompressedContent": true
+      },
+      "metadata": {
+        "designer": {
+          "x": 0,
+          "y": 300
+        },
+        "restore": {
+          "parameters": {
+            "authenticationType": {
+              "label": "No authenticationUse when no credentials are required for the request."
+            },
+            "tlsType": {
+              "label": "Empty"
+            }
+          },
+          "expect": {
+            "method": {
+              "mode": "chose",
+              "label": "GET"
+            },
+            "headers": {
+              "mode": "chose"
+            },
+            "queryParameters": {
+              "mode": "chose"
+            },
+            "contentType": {
+              "label": "Empty"
+            },
+            "parseResponse": {
+              "mode": "chose"
+            },
+            "stopOnHttpError": {
+              "mode": "chose"
+            },
+            "allowRedirects": {
+              "mode": "chose"
+            },
+            "shareCookies": {
+              "mode": "chose"
+            },
+            "requestCompressedContent": {
+              "mode": "chose"
+            },
+            "paginationType": {
+              "label": "Empty"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "authenticationType",
+            "type": "select",
+            "label": "Authentication type",
+            "required": true,
+            "validate": {
+              "enum": [
+                "noAuth",
+                "apiKeyConnection",
+                "basicAuthConnection",
+                "oAuth",
+                "apiKey",
+                "basicAuth"
+              ]
+            }
+          },
+          {
+            "name": "tlsType",
+            "type": "select",
+            "label": "Transport layer security (TLS)",
+            "validate": {
+              "enum": [
+                "mTls",
+                "tls"
+              ]
+            }
+          },
+          {
+            "name": "proxyKeychain",
+            "type": "keychain:proxy",
+            "label": "Proxy"
+          }
+        ],
+        "expect": [
+          {
+            "name": "url",
+            "type": "url",
+            "label": "URL",
+            "required": true
+          },
+          {
+            "name": "method",
+            "type": "select",
+            "label": "Method",
+            "required": true,
+            "validate": {
+              "enum": [
+                "get",
+                "head",
+                "post",
+                "put",
+                "patch",
+                "delete",
+                "options"
+              ]
+            }
+          },
+          {
+            "name": "headers",
+            "type": "array",
+            "label": "Headers",
+            "spec": {
+              "name": "value",
+              "label": "Header",
+              "type": "collection",
+              "spec": [
+                {
+                  "name": "name",
+                  "label": "Name",
+                  "type": "text",
+                  "required": true,
+                  "validate": {
+                    "pattern": "^[-!#$%&'*+.^_`|~0-9A-Za-z]+$"
+                  }
+                },
+                {
+                  "name": "value",
+                  "label": "Value",
+                  "type": "text"
+                }
+              ]
+            }
+          },
+          {
+            "name": "queryParameters",
+            "type": "array",
+            "label": "Query parameters",
+            "spec": {
+              "name": "value",
+              "label": "Parameter",
+              "type": "collection",
+              "spec": [
+                {
+                  "name": "name",
+                  "label": "Name",
+                  "type": "text",
+                  "required": true
+                },
+                {
+                  "name": "value",
+                  "label": "Value",
+                  "type": "text"
+                }
+              ]
+            }
+          },
+          {
+            "name": "contentType",
+            "type": "select",
+            "label": "Body content type",
+            "validate": {
+              "enum": [
+                "json",
+                "multipart",
+                "urlEncoded",
+                "custom"
+              ]
+            }
+          },
+          {
+            "name": "parseResponse",
+            "type": "boolean",
+            "label": "Parse response",
+            "required": true
+          },
+          {
+            "name": "stopOnHttpError",
+            "type": "boolean",
+            "label": "Return error if HTTP request fails",
+            "required": true
+          },
+          {
+            "name": "timeout",
+            "type": "uinteger",
+            "label": "Timeout",
+            "validate": {
+              "min": 1,
+              "max": 300
+            }
+          },
+          {
+            "name": "allowRedirects",
+            "type": "boolean",
+            "label": "Allow redirects",
+            "required": true
+          },
+          {
+            "name": "shareCookies",
+            "type": "boolean",
+            "label": "Share cookies with other HTTP modules",
+            "required": true
+          },
+          {
+            "name": "requestCompressedContent",
+            "type": "boolean",
+            "label": "Request compressed content",
+            "required": true
+          },
+          {
+            "name": "paginationType",
+            "type": "select",
+            "label": "Pagination type",
+            "validate": {
+              "enum": [
+                "offsetBased",
+                "pageBased",
+                "urlBased",
+                "tokenBased"
+              ]
+            }
+          }
+        ],
+        "interface": [
+          {
+            "name": "data",
+            "label": "Data",
+            "type": "any"
+          },
+          {
+            "name": "statusCode",
+            "label": "Status Code",
+            "type": "number"
+          },
+          {
+            "name": "headers",
+            "label": "Headers",
+            "type": "collection",
+            "spec": [
+              {
+                "name": "content-length",
+                "label": "Content-Length",
+                "type": "text"
+              },
+              {
+                "name": "content-encoding",
+                "label": "Content-Encoding",
+                "type": "text"
+              },
+              {
+                "name": "content-type",
+                "label": "Content-Type",
+                "type": "text"
+              },
+              {
+                "name": "server",
+                "label": "Server",
+                "type": "text"
+              },
+              {
+                "name": "cache-control",
+                "label": "Cache-Control",
+                "type": "text"
+              },
+              {
+                "name": "set-cookie",
+                "label": "Set-Cookie",
+                "type": "array",
+                "spec": {
+                  "type": "text"
+                }
+              }
+            ]
+          }
+        ],
+        "advanced": true
+      },
+      "onerror": [
+        {
+          "id": 16,
+          "module": "google-sheets:addRow",
+          "version": 2,
+          "parameters": {
+            "__IMTCONN__": null
+          },
+          "mapper": {
+            "mode": "select",
+            "insertUnformatted": false,
+            "valueInputOption": "USER_ENTERED",
+            "insertDataOption": "INSERT_ROWS",
+            "from": "drive",
+            "spreadsheetId": "",
+            "sheetId": "Sheet1",
+            "includesHeaders": true,
+            "useColumnHeaders": false,
+            "values": {
+              "0": "{{now}}",
+              "1": "Postman Echo",
+              "2": "https://postman-echo.com/get?status=healthy",
+              "4": "No Response ",
+              "5": "Connection Error",
+              "6": "{{1.error.message}}"
+            }
+          },
+          "metadata": {
+            "designer": {
+              "x": 300,
+              "y": 600
+            },
+            "restore": {
+              "parameters": {
+                "__IMTCONN__": {
+                  "label": "Reconnect your own Google account in Make",
+                  "data": {
+                    "scoped": "true",
+                    "connection": "google"
+                  }
+                }
+              },
+              "expect": {
+                "mode": {
+                  "label": "Search by path"
+                },
+                "insertUnformatted": {
+                  "mode": "chose"
+                },
+                "valueInputOption": {
+                  "mode": "chose",
+                  "label": "User entered"
+                },
+                "insertDataOption": {
+                  "mode": "chose",
+                  "label": "Insert rows"
+                },
+                "from": {
+                  "label": "My Drive"
+                },
+                "spreadsheetId": {
+                  "path": [
+                    "API Health Monitoring Log"
+                  ]
+                },
+                "sheetId": {
+                  "label": "Sheet1"
+                },
+                "includesHeaders": {
+                  "label": "Yes"
+                },
+                "useColumnHeaders": {
+                  "label": "No"
+                }
+              }
+            },
+            "parameters": [
+              {
+                "name": "__IMTCONN__",
+                "type": "account:google",
+                "label": "Connection",
+                "required": true
+              }
+            ],
+            "expect": [
+              {
+                "name": "mode",
+                "type": "select",
+                "label": "Search Method",
+                "required": true,
+                "validate": {
+                  "enum": [
+                    "select",
+                    "fromAll",
+                    "map"
+                  ]
+                }
+              },
+              {
+                "name": "insertUnformatted",
+                "type": "boolean",
+                "label": "Unformatted",
+                "required": true
+              },
+              {
+                "name": "valueInputOption",
+                "type": "select",
+                "label": "Value input option",
+                "required": true,
+                "validate": {
+                  "enum": [
+                    "USER_ENTERED",
+                    "RAW"
+                  ]
+                }
+              },
+              {
+                "name": "insertDataOption",
+                "type": "select",
+                "label": "Insert data option",
+                "validate": {
+                  "enum": [
+                    "INSERT_ROWS",
+                    "OVERWRITE"
+                  ]
+                }
+              },
+              {
+                "name": "from",
+                "type": "select",
+                "label": "Drive",
+                "required": true,
+                "validate": {
+                  "enum": [
+                    "drive",
+                    "share",
+                    "team"
+                  ]
+                }
+              },
+              {
+                "name": "spreadsheetId",
+                "type": "file",
+                "label": "Spreadsheet Name",
+                "required": true
+              },
+              {
+                "name": "sheetId",
+                "type": "select",
+                "label": "Sheet Name",
+                "required": true
+              },
+              {
+                "name": "includesHeaders",
+                "type": "select",
+                "label": "Table contains headers",
+                "required": true,
+                "validate": {
+                  "enum": [
+                    true,
+                    false
+                  ]
+                }
+              },
+              {
+                "name": "useColumnHeaders",
+                "type": "select",
+                "label": "Use column headers as IDs of the columns",
+                "required": true,
+                "validate": {
+                  "enum": [
+                    true,
+                    false
+                  ]
+                }
+              },
+              {
+                "name": "values",
+                "type": "collection",
+                "label": "Values in columns",
+                "metadata": [
+                  [
+                    [
+                      "Timestamp",
+                      "APIName ",
+                      "Endpoint ",
+                      "HTTPStatus",
+                      "ApplicationStatus  ",
+                      "OverallHealth ",
+                      "Details"
+                    ]
+                  ]
+                ],
+                "spec": [
+                  {
+                    "name": "0",
+                    "type": "text",
+                    "label": "Timestamp (A)"
+                  },
+                  {
+                    "name": "1",
+                    "type": "text",
+                    "label": "APIName  (B)"
+                  },
+                  {
+                    "name": "2",
+                    "type": "text",
+                    "label": "Endpoint  (C)"
+                  },
+                  {
+                    "name": "3",
+                    "type": "text",
+                    "label": "HTTPStatus (D)"
+                  },
+                  {
+                    "name": "4",
+                    "type": "text",
+                    "label": "ApplicationStatus   (E)"
+                  },
+                  {
+                    "name": "5",
+                    "type": "text",
+                    "label": "OverallHealth  (F)"
+                  },
+                  {
+                    "name": "6",
+                    "type": "text",
+                    "label": "Details (G)"
+                  },
+                  {
+                    "name": "7",
+                    "type": "text",
+                    "label": "(H)"
+                  },
+                  {
+                    "name": "8",
+                    "type": "text",
+                    "label": "(I)"
+                  },
+                  {
+                    "name": "9",
+                    "type": "text",
+                    "label": "(J)"
+                  },
+                  {
+                    "name": "10",
+                    "type": "text",
+                    "label": "(K)"
+                  },
+                  {
+                    "name": "11",
+                    "type": "text",
+                    "label": "(L)"
+                  },
+                  {
+                    "name": "12",
+                    "type": "text",
+                    "label": "(M)"
+                  },
+                  {
+                    "name": "13",
+                    "type": "text",
+                    "label": "(N)"
+                  },
+                  {
+                    "name": "14",
+                    "type": "text",
+                    "label": "(O)"
+                  },
+                  {
+                    "name": "15",
+                    "type": "text",
+                    "label": "(P)"
+                  },
+                  {
+                    "name": "16",
+                    "type": "text",
+                    "label": "(Q)"
+                  },
+                  {
+                    "name": "17",
+                    "type": "text",
+                    "label": "(R)"
+                  },
+                  {
+                    "name": "18",
+                    "type": "text",
+                    "label": "(S)"
+                  },
+                  {
+                    "name": "19",
+                    "type": "text",
+                    "label": "(T)"
+                  },
+                  {
+                    "name": "20",
+                    "type": "text",
+                    "label": "(U)"
+                  },
+                  {
+                    "name": "21",
+                    "type": "text",
+                    "label": "(V)"
+                  },
+                  {
+                    "name": "22",
+                    "type": "text",
+                    "label": "(W)"
+                  },
+                  {
+                    "name": "23",
+                    "type": "text",
+                    "label": "(X)"
+                  },
+                  {
+                    "name": "24",
+                    "type": "text",
+                    "label": "(Y)"
+                  },
+                  {
+                    "name": "25",
+                    "type": "text",
+                    "label": "(Z)"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "id": 17,
+          "module": "google-email:sendAnEmail",
+          "version": 4,
+          "parameters": {
+            "__IMTCONN__": null
+          },
+          "mapper": {
+            "to": [
+              "replace-with-your-address@example.com"
+            ],
+            "subject": "CRITICAL: API Connection Failure - Postman Echo",
+            "bodyType": "rawHtml",
+            "content": "<h2>API CONNECTION FAILURE ALERT</h2>\r\n\r\n<p>The monitoring system encountered an API connection error.</p>\r\n\r\n<p><strong>API Name:</strong> Postman Echo</p>\r\n<p><strong>Endpoint:</strong> https://postman-echo.com/get?status=healthy</p>\r\n<p><strong>HTTP Status:</strong> No response</p>\r\n<p><strong>Error Type:{{1.error.type}}</strong> </p>\r\n<p><strong>Error Message:{{1.error.message}}</strong> </p>\r\n<p><strong>Detected At:{{now}}</strong> </p>\r\n\r\n<hr>\r\n\r\n<p><strong>Recommended Actions:</strong></p>\r\n<ol>\r\n  <li>Check DNS resolution and network connectivity.</li>\r\n  <li>Verify the API endpoint is reachable.</li>\r\n  <li>Review the error details in Make and Google Sheets.</li>\r\n  <li>Escalate if the failure persists.</li>\r\n</ol>\r\n\r\n<p><em>Automated notification from API Health Monitoring System.</em></p>"
+          },
+          "metadata": {
+            "designer": {
+              "x": 600,
+              "y": 600
+            },
+            "restore": {
+              "parameters": {
+                "__IMTCONN__": {
+                  "label": "Reconnect your own Google account in Make",
+                  "data": {
+                    "scoped": "true",
+                    "connection": "google-email"
+                  }
+                }
+              },
+              "expect": {
+                "to": {
+                  "mode": "chose",
+                  "items": [
+                    null
+                  ]
+                },
+                "bodyType": {
+                  "label": "Raw HTML"
+                },
+                "attachments": {
+                  "mode": "chose"
+                },
+                "from": {
+                  "mode": "chose"
+                },
+                "cc": {
+                  "mode": "chose"
+                },
+                "bcc": {
+                  "mode": "chose"
+                },
+                "emailHeaders": {
+                  "mode": "chose"
+                }
+              }
+            },
+            "parameters": [
+              {
+                "name": "__IMTCONN__",
+                "type": "account:google-email",
+                "label": "Connection",
+                "required": true
+              }
+            ],
+            "expect": [
+              {
+                "name": "to",
+                "type": "array",
+                "label": "To",
+                "required": true,
+                "spec": {
+                  "type": "email",
+                  "label": "Recipient email address",
+                  "required": true,
+                  "validate": true,
+                  "name": "value"
+                }
+              },
+              {
+                "name": "subject",
+                "type": "text",
+                "label": "Subject"
+              },
+              {
+                "name": "bodyType",
+                "type": "select",
+                "label": "Body type",
+                "required": true,
+                "validate": {
+                  "enum": [
+                    "rawHtml",
+                    "collection"
+                  ]
+                }
+              },
+              {
+                "name": "attachments",
+                "type": "array",
+                "label": "Attachments",
+                "spec": {
+                  "spec": [
+                    {
+                      "name": "filename",
+                      "type": "filename",
+                      "label": "File name",
+                      "required": true,
+                      "semantic": "file:name"
+                    },
+                    {
+                      "name": "data",
+                      "type": "buffer",
+                      "label": "Data",
+                      "required": true,
+                      "semantic": "file:data"
+                    }
+                  ],
+                  "type": "collection",
+                  "label": "Attachment",
+                  "name": "value"
+                }
+              },
+              {
+                "name": "from",
+                "type": "select",
+                "label": "From"
+              },
+              {
+                "name": "cc",
+                "type": "array",
+                "label": "CC recipients",
+                "spec": {
+                  "type": "email",
+                  "label": "Recipient email address",
+                  "name": "value"
+                }
+              },
+              {
+                "name": "bcc",
+                "type": "array",
+                "label": "BCC recipients",
+                "spec": {
+                  "type": "email",
+                  "label": "Recipient email address",
+                  "name": "value"
+                }
+              },
+              {
+                "name": "emailHeaders",
+                "type": "array",
+                "label": "Additional email headers",
+                "spec": {
+                  "spec": [
+                    {
+                      "name": "key",
+                      "type": "text",
+                      "label": "Key",
+                      "required": true
+                    },
+                    {
+                      "name": "value",
+                      "type": "text",
+                      "label": "Value"
+                    }
+                  ],
+                  "type": "collection",
+                  "label": "Email header",
+                  "name": "value"
+                }
+              },
+              {
+                "name": "content",
+                "type": "text",
+                "label": "Content"
+              }
+            ],
+            "advanced": true
+          }
+        },
+        {
+          "id": 19,
+          "module": "builtin:Ignore",
+          "version": 1,
+          "parameters": {},
+          "mapper": {},
+          "metadata": {
+            "designer": {
+              "x": 900,
+              "y": 600
+            },
+            "restore": {}
+          }
+        }
+      ]
+    },
+    {
+      "id": 8,
+      "module": "builtin:BasicRouter",
+      "version": 1,
+      "parameters": {
+        "else": 0
+      },
+      "mapper": null,
+      "metadata": {
+        "designer": {
+          "x": 300,
+          "y": 150
+        }
+      },
+      "routes": [
+        {
+          "flow": [
+            {
+              "id": 10,
+              "module": "google-sheets:addRow",
+              "version": 2,
+              "parameters": {
+                "__IMTCONN__": null
+              },
+              "filter": {
+                "name": "API Unhealthy",
+                "conditions": []
+              },
+              "mapper": {
+                "mode": "select",
+                "insertUnformatted": false,
+                "valueInputOption": "USER_ENTERED",
+                "insertDataOption": "INSERT_ROWS",
+                "from": "drive",
+                "spreadsheetId": "",
+                "sheetId": "Sheet1",
+                "includesHeaders": true,
+                "useColumnHeaders": false,
+                "values": {
+                  "0": "{{now}}",
+                  "1": "Postman Echo",
+                  "2": "{{1.data.url}}",
+                  "3": "{{1.statusCode}}",
+                  "4": "{{1.data.args}}",
+                  "5": "Unhealthy",
+                  "6": "API failed HTTP status or application health validation"
+                }
+              },
+              "metadata": {
+                "designer": {
+                  "x": 600,
+                  "y": 0
+                },
+                "restore": {
+                  "parameters": {
+                    "__IMTCONN__": {
+                      "label": "Reconnect your own Google account in Make",
+                      "data": {
+                        "scoped": "true",
+                        "connection": "google"
+                      }
+                    }
+                  },
+                  "expect": {
+                    "mode": {
+                      "label": "Search by path"
+                    },
+                    "insertUnformatted": {
+                      "mode": "chose"
+                    },
+                    "valueInputOption": {
+                      "mode": "chose",
+                      "label": "User entered"
+                    },
+                    "insertDataOption": {
+                      "mode": "chose",
+                      "label": "Insert rows"
+                    },
+                    "from": {
+                      "label": "My Drive"
+                    },
+                    "spreadsheetId": {
+                      "path": [
+                        "API Health Monitoring Log"
+                      ]
+                    },
+                    "sheetId": {
+                      "label": "Sheet1"
+                    },
+                    "includesHeaders": {
+                      "label": "Yes"
+                    },
+                    "useColumnHeaders": {
+                      "label": "No"
+                    }
+                  }
+                },
+                "parameters": [
+                  {
+                    "name": "__IMTCONN__",
+                    "type": "account:google",
+                    "label": "Connection",
+                    "required": true
+                  }
+                ],
+                "expect": [
+                  {
+                    "name": "mode",
+                    "type": "select",
+                    "label": "Search Method",
+                    "required": true,
+                    "validate": {
+                      "enum": [
+                        "select",
+                        "fromAll",
+                        "map"
+                      ]
+                    }
+                  },
+                  {
+                    "name": "insertUnformatted",
+                    "type": "boolean",
+                    "label": "Unformatted",
+                    "required": true
+                  },
+                  {
+                    "name": "valueInputOption",
+                    "type": "select",
+                    "label": "Value input option",
+                    "required": true,
+                    "validate": {
+                      "enum": [
+                        "USER_ENTERED",
+                        "RAW"
+                      ]
+                    }
+                  },
+                  {
+                    "name": "insertDataOption",
+                    "type": "select",
+                    "label": "Insert data option",
+                    "validate": {
+                      "enum": [
+                        "INSERT_ROWS",
+                        "OVERWRITE"
+                      ]
+                    }
+                  },
+                  {
+                    "name": "from",
+                    "type": "select",
+                    "label": "Drive",
+                    "required": true,
+                    "validate": {
+                      "enum": [
+                        "drive",
+                        "share",
+                        "team"
+                      ]
+                    }
+                  },
+                  {
+                    "name": "spreadsheetId",
+                    "type": "file",
+                    "label": "Spreadsheet Name",
+                    "required": true
+                  },
+                  {
+                    "name": "sheetId",
+                    "type": "select",
+                    "label": "Sheet Name",
+                    "required": true
+                  },
+                  {
+                    "name": "includesHeaders",
+                    "type": "select",
+                    "label": "Table contains headers",
+                    "required": true,
+                    "validate": {
+                      "enum": [
+                        true,
+                        false
+                      ]
+                    }
+                  },
+                  {
+                    "name": "useColumnHeaders",
+                    "type": "select",
+                    "label": "Use column headers as IDs of the columns",
+                    "required": true,
+                    "validate": {
+                      "enum": [
+                        true,
+                        false
+                      ]
+                    }
+                  },
+                  {
+                    "name": "values",
+                    "type": "collection",
+                    "label": "Values in columns",
+                    "metadata": [
+                      [
+                        [
+                          "Timestamp",
+                          "APIName ",
+                          "Endpoint ",
+                          "HTTPStatus",
+                          "ApplicationStatus  ",
+                          "OverallHealth ",
+                          "Details"
+                        ]
+                      ]
+                    ],
+                    "spec": [
+                      {
+                        "name": "0",
+                        "type": "text",
+                        "label": "Timestamp (A)"
+                      },
+                      {
+                        "name": "1",
+                        "type": "text",
+                        "label": "APIName  (B)"
+                      },
+                      {
+                        "name": "2",
+                        "type": "text",
+                        "label": "Endpoint  (C)"
+                      },
+                      {
+                        "name": "3",
+                        "type": "text",
+                        "label": "HTTPStatus (D)"
+                      },
+                      {
+                        "name": "4",
+                        "type": "text",
+                        "label": "ApplicationStatus   (E)"
+                      },
+                      {
+                        "name": "5",
+                        "type": "text",
+                        "label": "OverallHealth  (F)"
+                      },
+                      {
+                        "name": "6",
+                        "type": "text",
+                        "label": "Details (G)"
+                      },
+                      {
+                        "name": "7",
+                        "type": "text",
+                        "label": "(H)"
+                      },
+                      {
+                        "name": "8",
+                        "type": "text",
+                        "label": "(I)"
+                      },
+                      {
+                        "name": "9",
+                        "type": "text",
+                        "label": "(J)"
+                      },
+                      {
+                        "name": "10",
+                        "type": "text",
+                        "label": "(K)"
+                      },
+                      {
+                        "name": "11",
+                        "type": "text",
+                        "label": "(L)"
+                      },
+                      {
+                        "name": "12",
+                        "type": "text",
+                        "label": "(M)"
+                      },
+                      {
+                        "name": "13",
+                        "type": "text",
+                        "label": "(N)"
+                      },
+                      {
+                        "name": "14",
+                        "type": "text",
+                        "label": "(O)"
+                      },
+                      {
+                        "name": "15",
+                        "type": "text",
+                        "label": "(P)"
+                      },
+                      {
+                        "name": "16",
+                        "type": "text",
+                        "label": "(Q)"
+                      },
+                      {
+                        "name": "17",
+                        "type": "text",
+                        "label": "(R)"
+                      },
+                      {
+                        "name": "18",
+                        "type": "text",
+                        "label": "(S)"
+                      },
+                      {
+                        "name": "19",
+                        "type": "text",
+                        "label": "(T)"
+                      },
+                      {
+                        "name": "20",
+                        "type": "text",
+                        "label": "(U)"
+                      },
+                      {
+                        "name": "21",
+                        "type": "text",
+                        "label": "(V)"
+                      },
+                      {
+                        "name": "22",
+                        "type": "text",
+                        "label": "(W)"
+                      },
+                      {
+                        "name": "23",
+                        "type": "text",
+                        "label": "(X)"
+                      },
+                      {
+                        "name": "24",
+                        "type": "text",
+                        "label": "(Y)"
+                      },
+                      {
+                        "name": "25",
+                        "type": "text",
+                        "label": "(Z)"
+                      }
+                    ]
+                  }
+                ]
+              }
+            },
+            {
+              "id": 14,
+              "module": "google-email:sendAnEmail",
+              "version": 4,
+              "parameters": {
+                "__IMTCONN__": null
+              },
+              "mapper": {
+                "to": [
+                  "replace-with-your-address@example.com"
+                ],
+                "subject": "ALERT: Postman Echo API Health Check Failed",
+                "bodyType": "rawHtml",
+                "content": "<h2>API HEALTH MONITORING ALERT</h2>\r\n\r\n<p>An API health check failed.</p>\r\n\r\n<p><strong>API Name:</strong> Postman Echo</p>\r\n<p><strong>Endpoint{{1.data.url}}:</strong> </p>\r\n<p><strong>HTTP Status:{{1.statusCode}}</strong> </p>\r\n<p><strong>Application Status:{{1.data.args.status}}</strong> </p>\r\n<p><strong>Overall Health:</strong> Unhealthy</p>\r\n<p><strong>Detected At:{{now}}</strong> </p>\r\n\r\n<hr>\r\n\r\n<p><strong>Recommended Action:</strong><br>\r\nReview the API response and investigate the reported health status.</p>\r\n\r\n<p><em>Automated notification from API Health Monitoring System.</em></p>"
+              },
+              "metadata": {
+                "designer": {
+                  "x": 900,
+                  "y": 0
+                },
+                "restore": {
+                  "parameters": {
+                    "__IMTCONN__": {
+                      "label": "Reconnect your own Google account in Make",
+                      "data": {
+                        "scoped": "true",
+                        "connection": "google-email"
+                      }
+                    }
+                  },
+                  "expect": {
+                    "to": {
+                      "mode": "chose",
+                      "items": [
+                        null
+                      ]
+                    },
+                    "bodyType": {
+                      "label": "Raw HTML"
+                    },
+                    "attachments": {
+                      "mode": "chose"
+                    },
+                    "from": {
+                      "mode": "chose"
+                    },
+                    "cc": {
+                      "mode": "chose"
+                    },
+                    "bcc": {
+                      "mode": "chose"
+                    },
+                    "emailHeaders": {
+                      "mode": "chose"
+                    }
+                  }
+                },
+                "parameters": [
+                  {
+                    "name": "__IMTCONN__",
+                    "type": "account:google-email",
+                    "label": "Connection",
+                    "required": true
+                  }
+                ],
+                "expect": [
+                  {
+                    "name": "to",
+                    "type": "array",
+                    "label": "To",
+                    "required": true,
+                    "spec": {
+                      "type": "email",
+                      "label": "Recipient email address",
+                      "required": true,
+                      "validate": true,
+                      "name": "value"
+                    }
+                  },
+                  {
+                    "name": "subject",
+                    "type": "text",
+                    "label": "Subject"
+                  },
+                  {
+                    "name": "bodyType",
+                    "type": "select",
+                    "label": "Body type",
+                    "required": true,
+                    "validate": {
+                      "enum": [
+                        "rawHtml",
+                        "collection"
+                      ]
+                    }
+                  },
+                  {
+                    "name": "attachments",
+                    "type": "array",
+                    "label": "Attachments",
+                    "spec": {
+                      "spec": [
+                        {
+                          "name": "filename",
+                          "type": "filename",
+                          "label": "File name",
+                          "required": true,
+                          "semantic": "file:name"
+                        },
+                        {
+                          "name": "data",
+                          "type": "buffer",
+                          "label": "Data",
+                          "required": true,
+                          "semantic": "file:data"
+                        }
+                      ],
+                      "type": "collection",
+                      "label": "Attachment",
+                      "name": "value"
+                    }
+                  },
+                  {
+                    "name": "from",
+                    "type": "select",
+                    "label": "From"
+                  },
+                  {
+                    "name": "cc",
+                    "type": "array",
+                    "label": "CC recipients",
+                    "spec": {
+                      "type": "email",
+                      "label": "Recipient email address",
+                      "name": "value"
+                    }
+                  },
+                  {
+                    "name": "bcc",
+                    "type": "array",
+                    "label": "BCC recipients",
+                    "spec": {
+                      "type": "email",
+                      "label": "Recipient email address",
+                      "name": "value"
+                    }
+                  },
+                  {
+                    "name": "emailHeaders",
+                    "type": "array",
+                    "label": "Additional email headers",
+                    "spec": {
+                      "spec": [
+                        {
+                          "name": "key",
+                          "type": "text",
+                          "label": "Key",
+                          "required": true
+                        },
+                        {
+                          "name": "value",
+                          "type": "text",
+                          "label": "Value"
+                        }
+                      ],
+                      "type": "collection",
+                      "label": "Email header",
+                      "name": "value"
+                    }
+                  },
+                  {
+                    "name": "content",
+                    "type": "text",
+                    "label": "Content"
+                  }
+                ],
+                "advanced": true
+              }
+            }
+          ]
+        },
+        {
+          "flow": [
+            {
+              "id": 13,
+              "module": "google-sheets:addRow",
+              "version": 2,
+              "parameters": {
+                "__IMTCONN__": null
+              },
+              "filter": {
+                "name": "API Healthy",
+                "conditions": [
+                  [
+                    {
+                      "a": "{{1.statusCode}}",
+                      "o": "number:equal",
+                      "b": "200"
+                    },
+                    {
+                      "a": "{{1.data.args.status}}",
+                      "o": "text:equal",
+                      "b": "healthy"
+                    }
+                  ]
+                ]
+              },
+              "mapper": {
+                "mode": "select",
+                "insertUnformatted": false,
+                "valueInputOption": "USER_ENTERED",
+                "insertDataOption": "INSERT_ROWS",
+                "from": "drive",
+                "spreadsheetId": "",
+                "sheetId": "Sheet1",
+                "includesHeaders": true,
+                "useColumnHeaders": false,
+                "values": {
+                  "0": "{{now}}",
+                  "1": "Postman Echo",
+                  "2": "{{1.data.url}}",
+                  "3": "{{1.statusCode}}",
+                  "4": "{{1.data.args.status}}",
+                  "5": "Healthy",
+                  "6": "HTTP and application health checks passed"
+                }
+              },
+              "metadata": {
+                "designer": {
+                  "x": 600,
+                  "y": 300
+                },
+                "restore": {
+                  "parameters": {
+                    "__IMTCONN__": {
+                      "label": "Reconnect your own Google account in Make",
+                      "data": {
+                        "scoped": "true",
+                        "connection": "google"
+                      }
+                    }
+                  },
+                  "expect": {
+                    "mode": {
+                      "label": "Search by path"
+                    },
+                    "insertUnformatted": {
+                      "mode": "chose"
+                    },
+                    "valueInputOption": {
+                      "mode": "chose",
+                      "label": "User entered"
+                    },
+                    "insertDataOption": {
+                      "mode": "chose",
+                      "label": "Insert rows"
+                    },
+                    "from": {
+                      "label": "My Drive"
+                    },
+                    "spreadsheetId": {
+                      "path": [
+                        "API Health Monitoring Log"
+                      ]
+                    },
+                    "sheetId": {
+                      "label": "Sheet1"
+                    },
+                    "includesHeaders": {
+                      "label": "Yes"
+                    },
+                    "useColumnHeaders": {
+                      "label": "No"
+                    }
+                  }
+                },
+                "parameters": [
+                  {
+                    "name": "__IMTCONN__",
+                    "type": "account:google",
+                    "label": "Connection",
+                    "required": true
+                  }
+                ],
+                "expect": [
+                  {
+                    "name": "mode",
+                    "type": "select",
+                    "label": "Search Method",
+                    "required": true,
+                    "validate": {
+                      "enum": [
+                        "select",
+                        "fromAll",
+                        "map"
+                      ]
+                    }
+                  },
+                  {
+                    "name": "insertUnformatted",
+                    "type": "boolean",
+                    "label": "Unformatted",
+                    "required": true
+                  },
+                  {
+                    "name": "valueInputOption",
+                    "type": "select",
+                    "label": "Value input option",
+                    "required": true,
+                    "validate": {
+                      "enum": [
+                        "USER_ENTERED",
+                        "RAW"
+                      ]
+                    }
+                  },
+                  {
+                    "name": "insertDataOption",
+                    "type": "select",
+                    "label": "Insert data option",
+                    "validate": {
+                      "enum": [
+                        "INSERT_ROWS",
+                        "OVERWRITE"
+                      ]
+                    }
+                  },
+                  {
+                    "name": "from",
+                    "type": "select",
+                    "label": "Drive",
+                    "required": true,
+                    "validate": {
+                      "enum": [
+                        "drive",
+                        "share",
+                        "team"
+                      ]
+                    }
+                  },
+                  {
+                    "name": "spreadsheetId",
+                    "type": "file",
+                    "label": "Spreadsheet Name",
+                    "required": true
+                  },
+                  {
+                    "name": "sheetId",
+                    "type": "select",
+                    "label": "Sheet Name",
+                    "required": true
+                  },
+                  {
+                    "name": "includesHeaders",
+                    "type": "select",
+                    "label": "Table contains headers",
+                    "required": true,
+                    "validate": {
+                      "enum": [
+                        true,
+                        false
+                      ]
+                    }
+                  },
+                  {
+                    "name": "useColumnHeaders",
+                    "type": "select",
+                    "label": "Use column headers as IDs of the columns",
+                    "required": true,
+                    "validate": {
+                      "enum": [
+                        true,
+                        false
+                      ]
+                    }
+                  },
+                  {
+                    "name": "values",
+                    "type": "collection",
+                    "label": "Values in columns",
+                    "metadata": [
+                      [
+                        [
+                          "Timestamp",
+                          "APIName ",
+                          "Endpoint ",
+                          "HTTPStatus",
+                          "ApplicationStatus  ",
+                          "OverallHealth ",
+                          "Details"
+                        ]
+                      ]
+                    ],
+                    "spec": [
+                      {
+                        "name": "0",
+                        "type": "text",
+                        "label": "Timestamp (A)"
+                      },
+                      {
+                        "name": "1",
+                        "type": "text",
+                        "label": "APIName  (B)"
+                      },
+                      {
+                        "name": "2",
+                        "type": "text",
+                        "label": "Endpoint  (C)"
+                      },
+                      {
+                        "name": "3",
+                        "type": "text",
+                        "label": "HTTPStatus (D)"
+                      },
+                      {
+                        "name": "4",
+                        "type": "text",
+                        "label": "ApplicationStatus   (E)"
+                      },
+                      {
+                        "name": "5",
+                        "type": "text",
+                        "label": "OverallHealth  (F)"
+                      },
+                      {
+                        "name": "6",
+                        "type": "text",
+                        "label": "Details (G)"
+                      },
+                      {
+                        "name": "7",
+                        "type": "text",
+                        "label": "(H)"
+                      },
+                      {
+                        "name": "8",
+                        "type": "text",
+                        "label": "(I)"
+                      },
+                      {
+                        "name": "9",
+                        "type": "text",
+                        "label": "(J)"
+                      },
+                      {
+                        "name": "10",
+                        "type": "text",
+                        "label": "(K)"
+                      },
+                      {
+                        "name": "11",
+                        "type": "text",
+                        "label": "(L)"
+                      },
+                      {
+                        "name": "12",
+                        "type": "text",
+                        "label": "(M)"
+                      },
+                      {
+                        "name": "13",
+                        "type": "text",
+                        "label": "(N)"
+                      },
+                      {
+                        "name": "14",
+                        "type": "text",
+                        "label": "(O)"
+                      },
+                      {
+                        "name": "15",
+                        "type": "text",
+                        "label": "(P)"
+                      },
+                      {
+                        "name": "16",
+                        "type": "text",
+                        "label": "(Q)"
+                      },
+                      {
+                        "name": "17",
+                        "type": "text",
+                        "label": "(R)"
+                      },
+                      {
+                        "name": "18",
+                        "type": "text",
+                        "label": "(S)"
+                      },
+                      {
+                        "name": "19",
+                        "type": "text",
+                        "label": "(T)"
+                      },
+                      {
+                        "name": "20",
+                        "type": "text",
+                        "label": "(U)"
+                      },
+                      {
+                        "name": "21",
+                        "type": "text",
+                        "label": "(V)"
+                      },
+                      {
+                        "name": "22",
+                        "type": "text",
+                        "label": "(W)"
+                      },
+                      {
+                        "name": "23",
+                        "type": "text",
+                        "label": "(X)"
+                      },
+                      {
+                        "name": "24",
+                        "type": "text",
+                        "label": "(Y)"
+                      },
+                      {
+                        "name": "25",
+                        "type": "text",
+                        "label": "(Z)"
+                      }
+                    ]
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "metadata": {
+    "instant": false,
+    "version": 1,
+    "scenario": {
+      "roundtrips": 1,
+      "maxErrors": 3,
+      "autoCommit": true,
+      "autoCommitTriggerLast": true,
+      "sequential": false,
+      "slots": null,
+      "confidential": false,
+      "dataloss": false,
+      "dlq": false,
+      "freshVariables": false
+    },
+    "designer": {
+      "orphans": []
+    },
+    "zone": "us2.make.com",
+    "notes": []
+  }
+}
